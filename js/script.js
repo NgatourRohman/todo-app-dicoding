@@ -1,11 +1,15 @@
 const todos = [];
 const RENDER_EVENT = 'render-todo'
+const SAVED_EVENT = 'saved-todo';
+const STORAGE_KEY = 'TODO_APPS';
 
 document.addEventListener('DOMContentLoaded', function () {
     const submitForm = document.getElementById('form');
     submitForm.addEventListener('submit', function (event) {
         event.preventDefault();
         addTodo();
+
+        submitForm.reset();
     });
 
     document.addEventListener(RENDER_EVENT, function () {
@@ -24,6 +28,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+    document.addEventListener(SAVED_EVENT, function () {
+        console.log(localStorage.getItem(STORAGE_KEY));
+    });
+
+    if (isStorageExist()) {
+        loadDataFromStorage();
+    }
 });
 
 function addTodo() {
@@ -35,6 +47,9 @@ function addTodo() {
     todos.push(todoObject);
 
     document.dispatchEvent(new Event(RENDER_EVENT));
+
+    showToast("Tugas baru berhasil ditambahkan!");
+    saveData();
 }
 
 function addTaskToCompleted(todoId) {
@@ -44,6 +59,9 @@ function addTaskToCompleted(todoId) {
 
     todoTarget.isCompleted = true;
     document.dispatchEvent(new Event(RENDER_EVENT));
+
+    showToast('Tugas telah diselesaikan!');
+    saveData();
 }
 
 function removeTaskFromCompleted(todoId) {
@@ -53,6 +71,9 @@ function removeTaskFromCompleted(todoId) {
 
     todos.splice(todoTarget, 1);
     document.dispatchEvent(new Event(RENDER_EVENT));
+
+    showToast('Tugas telah dihapus!');
+    saveData();
 }
 
 function undoTaskFromCompleted(todoId) {
@@ -62,6 +83,9 @@ function undoTaskFromCompleted(todoId) {
 
     todoTarget.isCompleted = false;
     document.dispatchEvent(new Event(RENDER_EVENT));
+
+    showToast('Tugas telah dikembalikan!');
+    saveData();
 }
 
 function makeTodo(todoObject) {
@@ -141,4 +165,55 @@ function findTodoIndex(todoId) {
     }
 
     return -1;
+}
+
+function saveData() {
+    if (isStorageExist()) {
+        const parsed = JSON.stringify(todos);
+        localStorage.setItem(STORAGE_KEY, parsed);
+        document.dispatchEvent(new Event(SAVED_EVENT));
+    }
+}
+
+function isStorageExist() {
+    if (typeof (Storage) === 'undefined') {
+        alert('Browser kamu tidak mendukung local storage');
+        return false;
+    }
+    return true;
+}
+
+function loadDataFromStorage() {
+    const serializedData = localStorage.getItem(STORAGE_KEY);
+    let data = JSON.parse(serializedData);
+
+    if (data !== null) {
+        for (const todo of data) {
+            todos.push(todo);
+        }
+    }
+
+    document.dispatchEvent(new Event(RENDER_EVENT));
+}
+
+function showToast(message) {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.classList.add('toast-container');
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.classList.add('toast-item');
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => {
+            toast.remove();
+        }, 500);
+    }, 3000);
 }
