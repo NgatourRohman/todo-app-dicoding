@@ -4,13 +4,24 @@ Simple Todo List application built using:
 - HTML
 - CSS
 - JavaScript (DOM Manipulation)
-- Custom Event (render-todo)
+- Custom Event
+- Web Storage API (localStorage)
 
 ## Features
 - Add new todo
 - Mark todo as completed
 - Undo completed task
 - Delete task
-- Dynamic rendering using custom event
+- Data persistence using localStorage
+- Custom toast notification
+- Dynamic rendering using custom event system
 
-This project is part of Dicoding "Belajar Membuat Front-End Web untuk Pemula" class.
+## Technical Implementation
+- Custom event: `render-todo`
+- Data saved using JSON.stringify()
+- Data loaded using JSON.parse()
+- Storage validation with `typeof(Storage)`
+- Dynamic DOM creation (no innerHTML template)
+
+This project is part of Dicoding class:
+Belajar Membuat Front-End Web untuk Pemula.
