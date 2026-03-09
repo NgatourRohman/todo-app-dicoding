@@ -1,4 +1,6 @@
-# Todo App - Dicoding Front-End Beginner
+# 📝 Todo App - Dicoding Front-End Beginner
+
+![Simple Todo List App Screenshot](./assets/img/simple-todo-list.png)
 
 Simple Todo List application built using:
 - HTML
@@ -7,7 +9,7 @@ Simple Todo List application built using:
 - Custom Event
 - Web Storage API (localStorage)
 
-## Features
+## ✨ Features
 - Add new todo
 - Mark todo as completed
 - Undo completed task
@@ -16,7 +18,7 @@ Simple Todo List application built using:
 - Custom toast notification
 - Dynamic rendering using custom event system
 
-## Technical Implementation
+## 💻 Technical Implementation
 - Custom event: `render-todo`
 - Data saved using JSON.stringify()
 - Data loaded using JSON.parse()
@@ -25,3 +27,7 @@ Simple Todo List application built using:
 
 This project is part of Dicoding class:
 Belajar Membuat Front-End Web untuk Pemula.
+
+## 🚀 Live Demo
+
+[View Live Demo](https://ngatourrohman.github.io/todo-app-dicoding)
